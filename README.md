@@ -1,8 +1,8 @@
 # small-redirector
 
-средиректит ваши запросы куда скажете
+redirects requests with CORS
 
-## Запуск
+## how to run
 
 ```
 docker build -t redirector . 
