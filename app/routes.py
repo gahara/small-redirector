@@ -1,4 +1,4 @@
-from flask import  redirect
+from flask import  redirect, request
 from flask_cors import CORS, cross_origin
 from app import app
 
