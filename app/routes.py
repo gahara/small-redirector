@@ -1,7 +1,6 @@
 import os
 import requests
 from flask import request, Response
-from flask_cors import CORS
 from dotenv import load_dotenv
 from app import app
 
@@ -9,7 +8,6 @@ load_dotenv()
 HOST = os.environ.get('HOST')
 
 HTTP_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
-cors = CORS(app)
 
 @app.route('/', defaults={'path': ''}, methods=HTTP_METHODS)
 @app.route('/<path:path>', methods=HTTP_METHODS)
@@ -24,6 +22,16 @@ def catch_all(path):
 
     headers = [(name, value) for (name, value) in resp.raw.headers.items()]
 
-    response = Response(resp.content, resp.status_code, headers)
+    response = _corsify_actual_response(Response(resp.content, resp.status_code, headers=headers))
 
+    return response
+
+def _build_cors_prelight_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
