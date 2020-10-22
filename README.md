@@ -1,6 +1,6 @@
 # small-redirector
 
-redirects requests with CORS
+redirects requests with custom CORS
 
 ## how to run
 
